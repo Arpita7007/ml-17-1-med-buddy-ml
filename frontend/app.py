@@ -8,6 +8,10 @@ load_dotenv()
 
 API_URL = os.getenv("API_URL")
 
+if not API_URL:
+    st.error("API_URL environment variable is missing! Please configure it in Streamlit Secrets.")
+    st.stop()
+
 st.set_page_config(
     page_title="MedBuddy.ML",
     page_icon="⚕️",
