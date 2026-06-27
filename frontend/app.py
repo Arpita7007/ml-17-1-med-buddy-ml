@@ -62,7 +62,7 @@ if st.button("🔍 Predict"):
     response = requests.post(API_URL, json=input_data)
 
     if response.status_code != 200:
-        st.error("Something went wrong. Try again later...")
+     st.error("Something went wrong...")
     
     else:
         result = response.json()
