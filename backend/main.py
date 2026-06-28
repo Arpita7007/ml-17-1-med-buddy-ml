@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from backend import predict
+from backend.predictor import predict
 
 
 app = FastAPI(
