@@ -1,218 +1,170 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[codz]
-*$py.class
+# ⚕️ MedBuddy.ML — Heart Disease Risk Predictor
 
-# C extensions
-*.so
+A full-stack machine learning web application that predicts heart disease risk from clinical patient data. Built with a FastAPI backend, Streamlit frontend, and an XGBoost/Scikit-learn model trained on the Cleveland Heart Disease dataset.
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+🔴 **Live Demo:** [medbuddy-fronend.onrender.com](https://medbuddy-fronend.onrender.com)  
+📡 **API Docs:** [ml-17-1-med-buddy-ml-1.onrender.com/docs](https://ml-17-1-med-buddy-ml-1.onrender.com/docs)
 
-# PyInstaller
-#   Usually these files are written by a python script from a template
-#   before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+---
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+## 🧠 What It Does
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py.cover
-.hypothesis/
-.pytest_cache/
-cover/
+Enter 13 clinical features (age, cholesterol, heart rate, etc.) and the model returns:
+- **Prediction** — Heart Disease Detected / Not Detected
+- **Probability** — Confidence score of the prediction
 
-# Translations
-*.mo
-*.pot
+---
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+## 🏗️ Project Structure
 
-# Flask stuff:
-instance/
-.webassets-cache
+```
+ml-17-1-med-buddy-ml/
+├── backend/
+│   ├── __init__.py
+│   ├── main.py          # FastAPI app & prediction endpoint
+│   ├── predictor.py     # Model loading & inference logic
+│   └── training.py      # Model training script
+├── dataset/
+│   └── heart.csv        # Cleveland Heart Disease dataset
+├── frontend/
+│   └── app.py           # Streamlit UI
+├── model_dir/
+│   └── heart_disease_prediction_model.joblib
+├── notebook_files/
+│   └── _17_1_med_buddy_ml_notebook.ipynb
+├── Procfile
+├── requirements.txt
+└── env_template.txt
+```
 
-# Scrapy stuff:
-.scrapy
+---
 
-# Sphinx documentation
-docs/_build/
+## 🤖 ML Details
 
-# PyBuilder
-.pybuilder/
-target/
+| Component | Detail |
+|---|---|
+| Dataset | Cleveland Heart Disease (UCI) |
+| Target | Binary — 0: No Disease, 1: Disease |
+| Features | 13 clinical attributes |
+| Libraries | Scikit-learn, XGBoost, Pandas, NumPy |
+| Model | Saved as `.joblib` for fast inference |
 
-# Jupyter Notebook
-.ipynb_checkpoints
+### Input Features
 
-# IPython
-profile_default/
-ipython_config.py
+| Feature | Description |
+|---|---|
+| `age` | Age in years |
+| `sex` | Sex (1 = Male, 0 = Female) |
+| `cp` | Chest pain type (0–3) |
+| `trestbps` | Resting blood pressure (mm Hg) |
+| `chol` | Serum cholesterol (mg/dl) |
+| `fbs` | Fasting blood sugar > 120 mg/dl (1 = True) |
+| `restecg` | Resting ECG results (0–2) |
+| `thalach` | Maximum heart rate achieved |
+| `exang` | Exercise induced angina (1 = Yes) |
+| `oldpeak` | ST depression induced by exercise |
+| `slope` | Slope of peak exercise ST segment |
+| `ca` | Number of major vessels (0–4) |
+| `thal` | Thalassemia type (0–3) |
 
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
+---
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-# Pipfile.lock
+## 🔌 API Reference
 
-# UV
-#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-# uv.lock
+**Base URL:** `https://ml-17-1-med-buddy-ml-1.onrender.com`
 
-# poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
-# poetry.lock
-# poetry.toml
+### `GET /health`
+Health check endpoint.
+```json
+{ "status": "ok" }
+```
 
-# pdm
-#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
-#   pdm recommends including project-wide configuration in pdm.toml, but excluding .pdm-python.
-#   https://pdm-project.org/en/latest/usage/project/#working-with-version-control
-# pdm.lock
-# pdm.toml
-.pdm-python
-.pdm-build/
+### `POST /predict-heart-disease`
+Returns prediction and probability.
 
-# pixi
-#   Similar to Pipfile.lock, it is generally recommended to include pixi.lock in version control.
-# pixi.lock
-#   Pixi creates a virtual environment in the .pixi directory, just like venv module creates one
-#   in the .venv directory. It is recommended not to include this directory in version control.
-.pixi
+**Request body:**
+```json
+{
+  "age": 52, "sex": 1, "cp": 0,
+  "trestbps": 125, "chol": 212, "fbs": 0,
+  "restecg": 1, "thalach": 168, "exang": 0,
+  "oldpeak": 1.0, "slope": 2, "ca": 0, "thal": 2
+}
+```
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
-__pypackages__/
+**Response:**
+```json
+{
+  "prediction": 0,
+  "probability": 0.14,
+  "diagnosis": "No Heart Disease Detected"
+}
+```
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
+---
 
-# Redis
-*.rdb
-*.aof
-*.pid
+## 🚀 Tech Stack
 
-# RabbitMQ
-mnesia/
-rabbitmq/
-rabbitmq-data/
+| Layer | Technology |
+|---|---|
+| ML | Scikit-learn, XGBoost, Pandas, NumPy |
+| Backend | FastAPI, Uvicorn, Joblib |
+| Frontend | Streamlit |
+| Deployment | Render (backend + frontend) |
+| Environment | Python 3.11, python-dotenv |
 
-# ActiveMQ
-activemq-data/
+---
 
-# SageMath parsed files
-*.sage.py
+## ⚙️ Run Locally
 
-# Environments
-.env
-.envrc
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+### 1. Clone the repo
+```bash
+git clone https://github.com/Arpita7007/ml-17-1-med-buddy-ml.git
+cd ml-17-1-med-buddy-ml
+```
 
-# Spyder project settings
-.spyderproject
-.spyproject
+### 2. Create a virtual environment
+```bash
+python -m venv .venv
+.venv\Scripts\activate   # Windows
+source .venv/bin/activate  # Mac/Linux
+```
 
-# Rope project settings
-.ropeproject
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
 
-# mkdocs documentation
-/site
+### 4. Set up environment variables
+```bash
+cp env_template.txt .env
+# Edit .env and set PROJECT_ROOT to your local project path
+```
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+### 5. Run the backend
+```bash
+uvicorn backend.main:app --reload
+```
 
-# Pyre type checker
-.pyre/
+### 6. Run the frontend (new terminal)
+```bash
+streamlit run frontend/app.py
+```
 
-# pytype static type analyzer
-.pytype/
+---
 
-# Cython debug symbols
-cython_debug/
+## 🌐 Deployment
 
-# PyCharm
-#   JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#   be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#   and can be added to the global gitignore or merged into this file.  For a more nuclear
-#   option (not recommended) you can uncomment the following to ignore the entire idea folder.
-# .idea/
+| Service | Platform | URL |
+|---|---|---|
+| FastAPI Backend | Render | `https://ml-17-1-med-buddy-ml-1.onrender.com` |
+| Streamlit Frontend | Render | `https://medbuddy-fronend.onrender.com` |
 
-# Abstra
-#   Abstra is an AI-powered process automation framework.
-#   Ignore directories containing user credentials, local state, and settings.
-#   Learn more at https://abstra.io/docs
-.abstra/
+> ⚠️ Free tier on Render spins down after inactivity. First request may take ~30 seconds to wake up.
 
-# Visual Studio Code
-#   Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
-#   that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#   and can be added to the global gitignore or merged into this file. However, if you prefer, 
-#   you could uncomment the following to ignore the entire vscode folder
-# .vscode/
-# Temporary file for partial code execution
-tempCodeRunnerFile.py
+---
 
-# Ruff stuff:
-.ruff_cache/
+## 👩‍💻 Author
 
-# PyPI configuration file
-.pypirc
-
-# Marimo
-marimo/_static/
-marimo/_lsp/
-__marimo__/
-
-# Streamlit
-.streamlit/secrets.toml
+**Arpita** — B.Tech Data Science & Big Data  
+[GitHub](https://github.com/Arpita7007)
